@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
-import { Link } from 'react-router-dom';
 
-export default function MoviePoster({ id, title, poster, date }) {
+export default function MoviePoster({ title, poster, date, director = null }) {
   // console.log('poster prop', poster);
   return (
     <div className='MoviePoster'>
@@ -10,7 +9,8 @@ export default function MoviePoster({ id, title, poster, date }) {
         alt={`Movie poster for ${title}`}
       />
       <p>
-        <span>{title}</span> ({date.slice(0, 4)})
+        <span className='italics'>{title}</span> ({date.slice(0, 4)}){' '}
+        {director && `by ${director}`}
       </p>
     </div>
   );

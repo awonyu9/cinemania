@@ -3,14 +3,30 @@ import QuizOption from '../components/QuizOption';
 
 export default function Quiz() {
   const location = useLocation();
-  console.warn('state', location.state);
-  const { movieTitle, questions } = location.state;
+  // console.warn('state', location.state);
+  const { movie, questions } = location.state;
   // for test purposes:
-  // const movieTitle = 'Barbie';
+  // const movie = {
+  //   title: 'Barbie',
+  //   date: '2023-07-19',
+  //   poster:
+  //     'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg', // use backdrop instead
+  //   director: 'Greta Gerwig',
+  // };
 
   return (
     <div className='Quiz'>
-      <h2>Movie: {movieTitle}</h2>
+      <img
+        // src={movie.backdrop}
+        src={
+          'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg'
+        }
+        alt={`Movie backdrop for ${movie.title}`}
+      />
+      <h2>
+        Movie: <span className='italics'>{movie.title}</span> (
+        {movie.date.slice(0, 4)})
+      </h2>
       <div className='question-block-container'>
         {questions?.map((question, i) => (
           <>
@@ -25,7 +41,7 @@ export default function Quiz() {
                 <QuizOption
                   text={option.text}
                   correct={option.correct}
-                  key={j}
+                  key={`${i}-${j}`}
                 />
               ))}
             </div>

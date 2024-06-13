@@ -15,11 +15,17 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+        children: [
+          {
+            path: '/confirm/:id',
+            element: <Confirm />,
+          },
+        ],
       },
-      {
-        path: '/confirm/:id',
-        element: <Confirm />,
-      },
+      // {
+      //   path: '/confirm/:id',
+      //   element: <Confirm />,
+      // },
       {
         path: '/play/:id',
         element: <Quiz />,

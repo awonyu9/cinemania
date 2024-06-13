@@ -45,7 +45,7 @@ export default function Confirm() {
           body: JSON.stringify({ movie_id: id }),
         });
         const details = await res.json();
-        // console.warn('details:', details);
+        console.warn('details:', details);
         setChosenMovie({
           title: details.movie_title,
           date: details.release_date,
@@ -78,7 +78,7 @@ export default function Confirm() {
           setQuizAvailable(false);
         } else {
           const data = await res.json();
-          console.warn('plot:', data.plot);
+          // console.warn('plot:', data.plot);
           setMoviePlot(data.plot);
         }
       } catch (error) {
@@ -92,7 +92,7 @@ export default function Confirm() {
   useEffect(() => {
     if (quizQuestions.length > 0) {
       navigate(`/play/${id}`, {
-        state: { movieTitle: chosenMovie.title, questions: quizQuestions },
+        state: { movie: chosenMovie, questions: quizQuestions },
       });
     }
   }, [quizQuestions]); // TODO: try adding 'navigate' to dependencies
@@ -102,10 +102,10 @@ export default function Confirm() {
       {chosenMovie && (
         <>
           <MoviePoster
-            id={id}
             title={chosenMovie.title}
             poster={chosenMovie.poster}
             date={chosenMovie.date}
+            director={chosenMovie.director}
           />
 
           {moviePlot && isQuizAvailable ? (
@@ -123,26 +123,13 @@ export default function Confirm() {
               </button>
             )
           ) : (
-            <p>
-              Unfortunately, a quiz can&apos;t be generated due to insufficient
+            <p className='no-quiz-message'>
+              Unfortunately, a quiz cannot be generated due to insufficient
               movie data.
             </p>
           )}
         </>
       )}
-
-      {/* {quizQuestions.length > 0 && (
-        <button
-          type='button'
-          onClick={() =>
-            navigate('/play', {
-              state: { movieTitle: title, questions: quizQuestions },
-            })
-          }
-        >
-          Go to quiz
-        </button>
-      )} */}
     </div>
   );
 }

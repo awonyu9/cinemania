@@ -12,9 +12,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
-  padding: 2rem;
+  /* padding: 2rem; */
   text-align: center;
 
   --cinemania-black: #262525;
@@ -36,7 +36,17 @@
 }
 
 @font-face {
-  font-family: 'Alumni Sans';
+  font-family: 'Alumni Sans Normal';
+  font-display: block;
+  src: url(https://design.penpot.app/internal/gfonts/font/alumnisans/v18/nwpHtKqkOwdO2aOIwhWudEWpx_zq_Xna-Xd9OO9gr1EI.woff2)
+    format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Alumni Sans Bold';
   font-weight: 700;
   src: url(https://design.penpot.app/internal/gfonts/font/alumnisans/v18/nwpHtKqkOwdO2aOIwhWudEWpx_zq_Xna-Xd93-hgr1EI.woff2)
     format('woff2');
@@ -53,15 +63,17 @@ body {
   min-height: 100vh;
 }
 
-p {
+p,
+label {
   font-size: 30px;
 }
 
 button {
   padding: 10px 20px;
   border-radius: 100px;
-  font-family: 'Alumni Sans';
+  font-family: 'Alumni Sans Bold';
   font-size: 20px;
+  font-weight: 700;
   user-select: none;
   cursor: pointer;
 }
@@ -70,8 +82,9 @@ button:hover {
   border: 2px solid var(--cinemania-white);
 }
 
-img {
-  max-width: 300px;
+span.italics {
+  transform: skew(-10deg);
+  display: inline-block;
 }
 
 .Root header {
@@ -90,18 +103,38 @@ img {
   cursor: pointer;
 }
 
-.Root header h1:hover {
-  transform: scale(1.05);
+.Home .search-bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px;
+  row-gap: 25px;
 }
+
+.Home .search-bar {
+  width: 400px;
+  height: 40px;
+  /* background-color: var(--cinemania-white); */
+  font-family: 'Alumni Sans Normal';
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* .Home .search-bar-container input {
+  width: 400px;
+  height: 40px;
+  background-color: var(--cinemania-white);
+  font-family: 'Alumni Sans Normal';
+  font-size: 20px;
+} */
 
 .Home .movie-results {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
 }
 
-.MoviePoster p span {
-  transform: skew(-10deg);
-  display: inline-block;
+.Confirm .no-quiz-message {
+  color: var(--cinemania-yellow);
 }
 
 .Confirm button {
@@ -132,28 +165,33 @@ img {
     transform: rotate(1turn);
   }
 }
+.Quiz img {
+  max-width: 500px;
+}
 
 .Quiz h2 {
+  margin-top: 0;
   color: var(--cinemania-pink);
-  font-size: 35px;
+  font-size: 40px;
 }
 
 .Quiz .question-block {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-items: center;
-  row-gap: 20px;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: center;
+  gap: 20px;
   /* column-gap: 20px; */
 }
 
 .Option {
   color: black;
   background-color: var(--cinemania-yellow);
-  width: 350px;
-  /* height: 50px; */
-  font-family: 'Alumni Sans';
+  width: 400px;
+  min-height: 150px;
+  padding: 20px 20px;
+  font-family: 'Alumni Sans Bold';
   font-size: 50px;
-  border-radius: 5%;
+  border-radius: 25px;
   cursor: pointer;
 }
 
@@ -163,4 +201,8 @@ img {
 
 .Option.incorrect {
   background-color: var(--cinemania-orange);
+}
+
+.MoviePoster img {
+  max-width: 300px;
 }

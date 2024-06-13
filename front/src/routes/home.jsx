@@ -1,42 +1,78 @@
 import { useEffect, useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 import MoviePoster from '../components/MoviePoster';
 
 export default function Home() {
-  const [movieQuery, setMovieQuery] = useState('a');
+  const navigate = useNavigate();
+  const [movieQuery, setMovieQuery] = useState('');
   const [movieResults, setMovieResults] = useState([]);
 
   useEffect(() => {
     async function searchMovies() {
-      const res = await fetch('http://localhost:5000/search_movies', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({ query: movieQuery }),
-      });
-      const data = await res.json();
-      // console.warn('data', data);
-      setMovieResults([...data.results]);
-      // setQuizQuestions([...questions]);
-      // console.warn('jsonified', JSON.parse(data));
-      // setPlot(data.plot);
+      try {
+        const res = await fetch('http://localhost:5000/search_movies', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({ query: movieQuery }),
+        });
+        const data = await res.json();
+        console.warn('data', data);
+        setMovieResults([...data.results]);
+      } catch (error) {
+        console.error(error);
+      }
     }
     searchMovies();
   }, [movieQuery]);
 
   return (
     <div className='Home'>
-      <label htmlFor='searchMovieInput'>Search for a movie</label>
-      <input
-        type='text'
-        id='searchMovieInput'
-        value={movieQuery}
-        onChange={(e) => setMovieQuery(e.target.value)}
-      />
+      <div className='search-bar-container'>
+        <label htmlFor='searchMovieInput'>Search for a movie</label>
+        {/* <input
+          type='text'
+          id='searchMovieInput'
+          value={movieQuery}
+          onChange={(e) => setMovieQuery(e.target.value)}
+        /> */}
+        {movieResults && (
+          <ReactSearchAutocomplete
+            items={movieResults}
+            className='search-bar'
+            inputSearchString={movieQuery}
+            fuseOptions={{ keys: ['title', 'original_title', 'release_date'] }}
+            resultStringKeyName='title'
+            placeholder='Start typing...'
+            autoFocus
+            formatResult={(movie) => (
+              <>
+                <span className='italics'>{movie.title}</span>{' '}
+                {`(${movie.release_date.slice(0, 4)})`}
+              </>
+            )}
+            styling={{
+              borderRadius: '0',
+              iconColor: 'black',
+              searchIconMargin: '0 0 0 10px',
+              clearIconMargin: '10px 10px 0 0',
+            }}
+            onSearch={(string, results) => {
+              console.log('onsearch', string, results);
+              setMovieQuery(string);
+            }}
+            onSelect={(movie) => {
+              console.log('onselect', movie);
+              navigate(`/confirm/${movie.id}`);
+            }}
+          />
+        )}
+      </div>
 
-      <div className='movie-results'>
+      {/* <div className='movie-results'>
         {movieResults?.map((movie) => (
           <Link
             to={`/confirm/${movie.id}`}
@@ -50,36 +86,9 @@ export default function Home() {
             />
           </Link>
         ))}
-      </div>
+      </div> */}
 
       <Outlet />
     </div>
   );
-}
-{
-  /* <div className="autocomplete">
-            <Autocomplete
-              items={chosenPlaylistTrackNames}
-              shouldItemRender={(item, value) => (
-                item.toLowerCase().indexOf(value.toLowerCase()) > -1
-                && value !== ""
-              )}
-              getItemValue={item => item}
-              renderItem={(item, isHighlighted) => (
-                <div key={item} className={isHighlighted ? "suggestion selected" : "suggestion no-selected"}>
-                  {item}
-                </div>
-              )}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onSelect={(value) => setInputValue(value)}
-              inputProps={{
-                placeholder: "Guess the song title here",
-                className:"input"
-              }}
-              renderMenu={items => (
-                <div className="menu" children={items} />
-              )}
-            />
-          </div> */
 }
