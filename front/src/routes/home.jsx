@@ -1,12 +1,30 @@
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import MoviePoster from '../components/Movie';
+import { useEffect, useState } from 'react';
+import { Link, Outlet } from 'react-router-dom';
+import MoviePoster from '../components/MoviePoster';
 
 export default function Home() {
-  const [movieQuery, setMovieQuery] = useState('');
-  const [movieResults, setMovieResults] = useState([
-    { title: 'Barbie', id: 1, poster: '../src/assets/react.svg' },
-  ]);
+  const [movieQuery, setMovieQuery] = useState('a');
+  const [movieResults, setMovieResults] = useState([]);
+
+  useEffect(() => {
+    async function searchMovies() {
+      const res = await fetch('http://localhost:5000/search_movies', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({ query: movieQuery }),
+      });
+      const data = await res.json();
+      console.warn('data', data);
+      setMovieResults([...data.results]);
+      // setQuizQuestions([...questions]);
+      // console.warn('jsonified', JSON.parse(data));
+      // setPlot(data.plot);
+    }
+    searchMovies();
+  }, [movieQuery]);
 
   return (
     <div className='Home'>
@@ -14,16 +32,23 @@ export default function Home() {
       <input
         type='text'
         id='searchMovieInput'
+        value={movieQuery}
+        onChange={(e) => setMovieQuery(e.target.value)}
       />
 
       <div className='movie-results'>
         {movieResults?.map((movie) => (
-          <MoviePoster
+          <Link
+            to={`/confirm/${movie.id}`}
             key={movie.id}
-            id={movie.id}
-            title={movie.title}
-            poster={movie.poster}
-          />
+          >
+            <MoviePoster
+              id={movie.id}
+              title={movie.title}
+              poster={'https://image.tmdb.org/t/p/w200/' + movie.poster_path}
+              date={movie.release_date}
+            />
+          </Link>
         ))}
       </div>
 
