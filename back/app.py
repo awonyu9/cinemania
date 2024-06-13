@@ -75,15 +75,19 @@ def get_quiz():
 
     if 'movie_title' not in data:
         return jsonify({"error": "Movie name is required"}), 400
-    if 'movie_year' not in data:
-        return jsonify({"error": "Movie year is required"}), 400
+    if 'plot' not in data:
+        return jsonify({"error": "Plot is required"}), 400
+
+    # if 'movie_year' not in data:
+    #     return jsonify({"error": "Movie year is required"}), 400
 
     movie_title = data['movie_title']
-    movie_year = data['movie_year']
+    plot = data['plot']
+    # movie_year = data['movie_year']
 
-    plot = fetch_movie_plot(movie_title, movie_year)
-    if not plot:
-        return jsonify({"error": "Movie not found or error fetching data"}), 404
+    # plot = fetch_movie_plot(movie_title, movie_year)
+    # if not plot:
+    #     return jsonify({"error": "Movie not found or error fetching data"}), 404
 
     prompt = f"""
     Generate a 10-question MCQ quiz on the movie {movie_title} with the correct answer. Your answer should be json with this format:

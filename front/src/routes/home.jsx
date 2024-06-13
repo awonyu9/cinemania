@@ -17,7 +17,7 @@ export default function Home() {
         body: JSON.stringify({ query: movieQuery }),
       });
       const data = await res.json();
-      console.warn('data', data);
+      // console.warn('data', data);
       setMovieResults([...data.results]);
       // setQuizQuestions([...questions]);
       // console.warn('jsonified', JSON.parse(data));
