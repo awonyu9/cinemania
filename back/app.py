@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 from openai import OpenAI
 from dotenv import load_dotenv
+from urllib.parse import quote
 import os
 
 app = Flask(__name__)
@@ -31,7 +32,16 @@ def get_plot():
 
 
 def fetch_movie_plot(movie_title, movie_year):
-    search_url = f"https://en.wikipedia.org/wiki/{movie_title.replace(' ', '_')}_({movie_year}_film)"
+    if "Part" in movie_title:
+        movie_title = movie_title.replace(':', '_-')
+    
+    if "'" in movie_title:
+        encoded_title = quote(movie_title.replace(' ', '_'))
+    else:
+        encoded_title = movie_title.replace(' ', '_')
+
+    search_url = f"https://en.wikipedia.org/wiki/{encoded_title}_({movie_year}_film)"
+    print(search_url)
     response = requests.get(search_url)
     # print(f"Response Status Code: {response.status_code}")
     if response.status_code == 200:
