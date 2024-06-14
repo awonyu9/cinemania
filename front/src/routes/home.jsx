@@ -68,6 +68,7 @@ export default function Home() {
               console.log('onselect', movie);
               navigate(`/confirm/${movie.id}`);
             }}
+            inputDebounce={500}
           />
         )}
       </div>
