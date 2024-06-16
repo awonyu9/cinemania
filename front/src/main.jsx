@@ -6,6 +6,8 @@ import Home from './routes/home.jsx';
 import Root from './routes/root.jsx';
 import Confirm from './routes/confirm.jsx';
 import Quiz from './routes/quiz.jsx';
+import Question from './components/Question.jsx';
+import Results from './routes/results.jsx';
 
 const router = createBrowserRouter([
   {
@@ -29,12 +31,20 @@ const router = createBrowserRouter([
       {
         path: '/play/:id',
         element: <Quiz />,
-        children: [
-          {
-            path: '/play/:id/:n_question',
-            // element: <Question />
-          },
-        ],
+        // children: [
+        // {
+        //   index: true,
+        //   element: <Question />,
+        // },
+        // {
+        //   path: '/play/:id/:n_question',
+        //   element: <Question />,
+        // },
+        // ],
+      },
+      {
+        path: '/results/:id',
+        element: <Results />,
       },
     ],
   },

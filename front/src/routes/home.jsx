@@ -48,6 +48,7 @@ export default function Home() {
             resultStringKeyName='title'
             placeholder='Start typing...'
             autoFocus
+            inputDebounce={500}
             formatResult={(movie) => (
               <>
                 <span className='italics'>{movie.title}</span>{' '}
@@ -68,7 +69,6 @@ export default function Home() {
               console.log('onselect', movie);
               navigate(`/confirm/${movie.id}`);
             }}
-            inputDebounce={500}
           />
         )}
       </div>

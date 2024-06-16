@@ -1,22 +1,34 @@
-import { useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import QuizOption from '../components/QuizOption';
+import { useEffect, useState } from 'react';
+import Question from '../components/Question';
 
 export default function Quiz() {
   const location = useLocation();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [score, setScore] = useState(0);
   // console.warn('state', location.state);
-  const { movie, questions } = location.state;
+  // const { movie, questions } = location.state;
   // for test purposes:
-  // const movie = {
-  //   title: 'Barbie',
-  //   date: '2023-07-19',
-  //   poster:
-  //     'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg', // use backdrop instead
-  //   director: 'Greta Gerwig',
-  // };
+  const movie = {
+    title: 'Barbie',
+    date: '2023-07-19',
+    poster:
+      'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg', // use backdrop instead
+    director: 'Greta Gerwig',
+  };
+
+  // useEffect(() => {
+  //   navigate(`/play/${id}/${currentQuestion}`);
+  // }, [currentQuestion]);
 
   return (
     <div className='Quiz'>
+      {/* could use MoviePoster, which'd need a bit of tweaking */}
       <img
+        // style={{ display: 'none' }}
         // src={movie.backdrop}
         src={
           'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg'
@@ -27,27 +39,41 @@ export default function Quiz() {
         Movie: <span className='italics'>{movie.title}</span> (
         {movie.date.slice(0, 4)})
       </h2>
-      <div className='question-block-container'>
-        {questions?.map((question, i) => (
-          <>
-            <p>
-              Q{i + 1}: {question.question}
-            </p>
-            <div
-              className='question-block'
-              key={i}
-            >
-              {question.options.map((option, j) => (
-                <QuizOption
-                  text={option.text}
-                  correct={option.correct}
-                  key={`${i}-${j}`}
-                />
-              ))}
-            </div>
-          </>
-        ))}
-      </div>
+
+      <p>Score: {score}</p>
+      {/* <hr /> */}
+
+      <Question
+        movie={movie}
+        movieId={id}
+        score={score}
+        setScore={setScore}
+        questions={questions.slice(0, 3)}
+        n={currentQuestion}
+        currentQuestion={currentQuestion}
+        setCurrentQuestion={setCurrentQuestion}
+      />
+
+      {/* <Outlet context={{ questions }} /> */}
+
+      {/* <div className='quiz-nav-buttons'>
+        <button
+          type='button'
+          onClick={() =>
+            currentQuestion > 1 && setCurrentQuestion((curr) => curr - 1)
+          }
+        >
+          Previous
+        </button>
+        <button
+          type='button'
+          onClick={() =>
+            currentQuestion < 10 && setCurrentQuestion((curr) => curr + 1)
+          }
+        >
+          Next
+        </button>
+      </div> */}
     </div>
   );
 }

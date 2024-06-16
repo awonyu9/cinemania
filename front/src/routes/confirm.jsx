@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import MoviePoster from '../components/MoviePoster';
 import { useEffect, useState } from 'react';
+import { fetchPlot } from '../utils';
 
 export default function Confirm() {
   const { id } = useParams();
@@ -63,17 +64,7 @@ export default function Confirm() {
   useEffect(() => {
     async function getPlot() {
       try {
-        const res = await fetch('http://localhost:5000/get_plot', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          body: JSON.stringify({
-            movie_title: chosenMovie.title,
-            movie_year: chosenMovie.date.slice(0, 4),
-          }),
-        });
+        const res = await fetchPlot(chosenMovie);
         if (res.status === 404) {
           setQuizAvailable(false);
         } else {
