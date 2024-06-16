@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { fetchPlot } from '../utils';
 
 export default function Results() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const [quizQuestions, setQuizQuestions] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   const { movie, score, n_questions } = location.state;
   console.warn('results movie and score', movie, score);
 
@@ -27,26 +27,22 @@ export default function Results() {
         Movie: <span className='italics'>{movie.title}</span> (
         {movie.date.slice(0, 4)})
       </h2>
-
       <p>
         Final score: {score}/{n_questions}
       </p>
-
       <img
-        // style={{ display: 'none' }}
         src={movie.poster}
-        alt={`Movie backdrop for ${movie.title}`}
+        alt={`Movie poster for ${movie.title}`}
       />
-
       <div className='nav-buttons'>
         <button
           type='button'
           onClick={async () => {
             // ***START HERE***
-            // TODO: function i put in utils should be fetchQuiz, not fetchPlot
+            // TODO: function I put in utils should be fetchQuiz, not fetchPlot
             // so I just did this in a dirty way for the time being
-            // it's not even working
             try {
+              setLoading(true);
               const res = await fetch('http://localhost:5000/get_quiz', {
                 method: 'POST',
                 headers: {
@@ -55,7 +51,7 @@ export default function Results() {
                 },
                 body: JSON.stringify({
                   movie_title: movie.title,
-                  plot: '', // TODO: need this
+                  plot: movie.plot,
                 }),
               });
               const questions = await res.json();
@@ -75,6 +71,12 @@ export default function Results() {
           New movie, new quiz
         </button>
       </div>
+      {isLoading && (
+        <div className='loading-container'>
+          <div className='loading-icon'></div>
+          <p>Generating quiz...</p>
+        </div>
+      )}
     </div>
   );
 }

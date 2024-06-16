@@ -5,12 +5,12 @@ export default function MoviePoster({ title, poster, date, director = null }) {
   return (
     <div className='MoviePoster'>
       <img
-        src={`${poster}`}
+        src={poster}
         alt={`Movie poster for ${title}`}
       />
       <p>
-        <span className='italics'>{title}</span> ({date.slice(0, 4)}){' '}
-        {director && `by ${director}`}
+        <span className='italics'>{title}</span>
+        {date && ` (${date.slice(0, 4)})`} {director && `by ${director}`}
       </p>
     </div>
   );

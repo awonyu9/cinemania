@@ -145,33 +145,7 @@ span.italics {
   background-color: var(--cinemania-pink);
 }
 
-.Confirm .loading-icon {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.Confirm .loading-icon::before {
-  content: '';
-  animation-name: loading;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  border: 5px solid var(--cinemania-white);
-  border-top-color: #000000;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  background-color: var(--cinemania-pink);
-}
-
-@keyframes loading {
-  to {
-    transform: rotate(1turn);
-  }
-}
-
-.Quiz img,
-.Results img {
+.Quiz img {
   max-width: 500px;
 }
 
@@ -210,6 +184,10 @@ span.italics {
   background-color: var(--cinemania-orange);
 }
 
+.Results img {
+  max-width: 400px;
+}
+
 .Results .nav-buttons {
   display: flex;
   column-gap: 25px;
@@ -227,4 +205,29 @@ span.italics {
 
 .MoviePoster img {
   max-width: 300px;
+}
+
+.loading-icon {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.loading-icon::before {
+  content: '';
+  animation-name: loading;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  border: 5px solid var(--cinemania-white);
+  border-top-color: #000000;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: var(--cinemania-pink);
+}
+
+@keyframes loading {
+  to {
+    transform: rotate(1turn);
+  }
 }

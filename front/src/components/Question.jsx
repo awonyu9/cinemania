@@ -19,6 +19,7 @@ export default function Question({
   const question = questions[n - 1];
   const timeout = 1000;
   const latestScore = useRef(score);
+  console.log('in question, movie:', movie);
   // console.log('outlet q', context.questions, n_question);
 
   function handleClick() {
@@ -38,7 +39,6 @@ export default function Question({
   }
 
   useEffect(() => {
-    console.warn('q score', score);
     latestScore.current = score;
   }, [score]);
 

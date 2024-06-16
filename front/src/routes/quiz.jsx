@@ -1,38 +1,30 @@
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
-import QuizOption from '../components/QuizOption';
-import { useEffect, useState } from 'react';
-import Question from '../components/Question';
+import { useLocation, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import Question from '../components/Question.jsx';
 
 export default function Quiz() {
   const location = useLocation();
   const { id } = useParams();
-  const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [score, setScore] = useState(0);
-  // console.warn('state', location.state);
-  // const { movie, questions } = location.state;
-  // for test purposes:
-  const movie = {
-    title: 'Barbie',
-    date: '2023-07-19',
-    poster:
-      'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg', // use backdrop instead
-    director: 'Greta Gerwig',
-  };
+  console.warn('state', location.state);
+  const { movie, questions } = location.state;
 
-  // useEffect(() => {
-  //   navigate(`/play/${id}/${currentQuestion}`);
-  // }, [currentQuestion]);
+  // for test purposes:
+  // const movie = {
+  //   title: 'Barbie',
+  //   date: '2023-07-19',
+  //   poster:
+  //     'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg', // use backdrop instead
+  //   backdrop: 'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg';
+  //   director: 'Greta Gerwig',
+  //   plot,
+  // };
 
   return (
     <div className='Quiz'>
-      {/* could use MoviePoster, which'd need a bit of tweaking */}
       <img
-        // style={{ display: 'none' }}
-        // src={movie.backdrop}
-        src={
-          'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg'
-        }
+        src={movie.backdrop}
         alt={`Movie backdrop for ${movie.title}`}
       />
       <h2>
@@ -40,7 +32,7 @@ export default function Quiz() {
         {movie.date.slice(0, 4)})
       </h2>
 
-      <p>Score: {score}</p>
+      {/* <p>Score: {score}</p> */}
       {/* <hr /> */}
 
       <Question
@@ -48,35 +40,30 @@ export default function Quiz() {
         movieId={id}
         score={score}
         setScore={setScore}
-        questions={questions.slice(0, 3)}
+        // questions={questions.slice(0, 3)}
+        questions={questions}
         n={currentQuestion}
         currentQuestion={currentQuestion}
         setCurrentQuestion={setCurrentQuestion}
       />
-
-      {/* <Outlet context={{ questions }} /> */}
-
-      {/* <div className='quiz-nav-buttons'>
-        <button
-          type='button'
-          onClick={() =>
-            currentQuestion > 1 && setCurrentQuestion((curr) => curr - 1)
-          }
-        >
-          Previous
-        </button>
-        <button
-          type='button'
-          onClick={() =>
-            currentQuestion < 10 && setCurrentQuestion((curr) => curr + 1)
-          }
-        >
-          Next
-        </button>
-      </div> */}
     </div>
   );
 }
+
+// for test purposes
+const plot = `Barbie ("Stereotypical Barbie") and fellow dolls reside in Barbieland, a matriarchal society populated by different versions of Barbies, Kens, and a group of discontinued models who are treated like outcasts due to their unconventional traits. While the Kens spend their days playing at the beach, considering it their profession, the Barbies hold prestigious jobs in law, science, politics, and so on. Ken ("Beach Ken") is only happy when he is with Barbie, and seeks a closer relationship with her, but she rebuffs him in favor of other activities and female friendships.
+
+One evening at a dance party, Barbie is suddenly stricken with worries about mortality. Overnight, she develops bad breath, cellulite, and flat feet, disrupting her usual routines and impairing the aura of classic perfection experienced by the Barbies. Weird Barbie, a disfigured doll, tells Barbie to find the child playing with her in the real world to cure her afflictions. Barbie decides to follow the advice and travel to the real world, with Ken joining Barbie by stowing away in her convertible.
+
+After arriving in Venice Beach, Barbie punches a man after he gropes her. Barbie and Ken are briefly arrested. Alarmed by the dolls' presence in the real world, the CEO of Mattel orders their recapture. Barbie tracks down her owner, a teenage girl named Sasha, who criticizes Barbie for encouraging unrealistic beauty standards. Distraught, Barbie discovers that Gloria, a Mattel employee and Sasha's mother, inadvertently caused Barbie's existential crisis after Gloria began playing with Sasha's old Barbies. Mattel attempts to put Barbie in a toy box for remanufacturing, but she escapes with Gloria and Sasha's help, and the three travel to Barbieland with Mattel executives in pursuit.
+
+Meanwhile, Ken learns about patriarchy and feels respected for the first time. He returns to Barbieland to persuade the other Kens to take over. The Kens indoctrinate the Barbies into submissive roles, such as agreeable girlfriends, housewives, and maids. Barbie arrives and attempts to convince the Barbies to be independent again. When her attempts fail, she becomes depressed. Gloria expresses her frustration with the conflicting standards women are forced to follow in the real world. Gloria's speech restores Barbie's confidence.
+
+With the assistance of Sasha, Weird Barbie, Allan, and the discontinued dolls, Gloria uses her knowledge from the real world to deprogram the Barbies from their indoctrination. The Barbies then manipulate the Kens into fighting among themselves, which distracts them from enshrining male superiority into Barbieland's constitution, allowing the Barbies to regain power. Having now experienced systemic oppression for themselves, the Barbies resolve to rectify the faults of their previous society, emphasizing better treatment of the Kens and all outcasts.
+
+Barbie and Ken apologize to each other, acknowledging their past mistakes. When Ken bemoans his lack of purpose without Barbie, she encourages him to find an autonomous identity. Barbie, who remains unsure of her own identity, meets with the spirit of Ruth Handler, Mattel co-founder and creator of the Barbie doll, who explains that Barbie's story has no set ending and her ever-evolving history surpasses her roots.
+
+After sharing goodbyes with the Barbies, Kens, and Mattel executives, Barbie decides to become human and return to the real world. Sometime later, Gloria, her husband, and Sasha take Barbie, now going by the name "Barbara Handler", to her first gynecologist appointment.`;
 
 const questions = [
   {

@@ -34,7 +34,6 @@ def get_plot():
 def fetch_movie_plot(movie_title, movie_year):
     if "Part" in movie_title:
         movie_title = movie_title.replace(':', '_-')
-    
     if "'" in movie_title:
         encoded_title = quote(movie_title.replace(' ', '_'))
     else:
@@ -185,12 +184,15 @@ def get_movie_details():
         return jsonify({"error": "Failed to fetch movie details"}), response.status_code
 
     movie_data = response.json()
+    # print(movie_data)
 
     movie_title = movie_data.get('title')
     release_date = movie_data.get('release_date')
     poster_path = movie_data.get('poster_path')
+    backdrop_path = movie_data.get('backdrop_path')
     # TODO: get backdrop
-    poster_url = f"https://image.tmdb.org/t/p/original{poster_path}" if poster_path else None
+    poster_url = f"https://image.tmdb.org/t/p/original{poster_path}" if poster_path else "https://critics.io/img/movies/poster-placeholder.png"
+    backdrop_url = f"https://image.tmdb.org/t/p/original{backdrop_path}" if backdrop_path else "https://www.kindpng.com/picc/m/18-189751_movie-placeholder-hd-png-download.png"
 
     directors = [member['name'] for member in movie_data['credits']
                  ['crew'] if member['job'] == 'Director']
@@ -201,6 +203,7 @@ def get_movie_details():
         "movie_title": movie_title,
         "release_date": release_date,
         "poster_url": poster_url,
+        "backdrop_url": backdrop_url,
         "director": director
     })
 

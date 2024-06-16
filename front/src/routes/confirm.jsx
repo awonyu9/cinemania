@@ -27,7 +27,6 @@ export default function Confirm() {
         }),
       });
       const questions = await res.json();
-      console.warn('data', questions, JSON.parse(questions));
       setQuizQuestions([...JSON.parse(questions)]);
     } catch (error) {
       console.error();
@@ -35,6 +34,7 @@ export default function Confirm() {
   }
 
   useEffect(() => {
+    console.warn('new id', id);
     async function getMovieDetails() {
       try {
         const res = await fetch('http://localhost:5000/get_movie_details', {
@@ -51,6 +51,7 @@ export default function Confirm() {
           title: details.movie_title,
           date: details.release_date,
           poster: details.poster_url,
+          backdrop: details.backdrop_url,
           director: details.director,
         });
       } catch (error) {
@@ -73,7 +74,7 @@ export default function Confirm() {
           setMoviePlot(data.plot);
         }
       } catch (error) {
-        console.error('catch', error);
+        console.error(error);
       }
     }
 
@@ -83,7 +84,10 @@ export default function Confirm() {
   useEffect(() => {
     if (quizQuestions.length > 0) {
       navigate(`/play/${id}`, {
-        state: { movie: chosenMovie, questions: quizQuestions },
+        state: {
+          movie: { ...chosenMovie, plot: moviePlot },
+          questions: quizQuestions,
+        },
       });
     }
   }, [quizQuestions]); // TODO: try adding 'navigate' to dependencies
