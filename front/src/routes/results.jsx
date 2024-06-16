@@ -24,8 +24,7 @@ export default function Results() {
   return (
     <div className='Results'>
       <h2>
-        Movie: <span className='italics'>{movie.title}</span> (
-        {movie.date.slice(0, 4)})
+        Movie: <span className='italics'>{movie.title}</span> ({movie.year})
       </h2>
       <p>
         Final score: {score}/{n_questions}

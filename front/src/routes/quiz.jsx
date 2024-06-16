@@ -13,7 +13,7 @@ export default function Quiz() {
   // for test purposes:
   // const movie = {
   //   title: 'Barbie',
-  //   date: '2023-07-19',
+  //   year: '2023',
   //   poster:
   //     'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg', // use backdrop instead
   //   backdrop: 'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg';
@@ -28,8 +28,7 @@ export default function Quiz() {
         alt={`Movie backdrop for ${movie.title}`}
       />
       <h2>
-        Movie: <span className='italics'>{movie.title}</span> (
-        {movie.date.slice(0, 4)})
+        Movie: <span className='italics'>{movie.title}</span> ({movie.year})
       </h2>
 
       {/* <p>Score: {score}</p> */}

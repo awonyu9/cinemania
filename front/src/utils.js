@@ -8,7 +8,7 @@ export async function fetchPlot(movie) {
       },
       body: JSON.stringify({
         movie_title: movie.title,
-        movie_year: movie.date.slice(0, 4),
+        movie_year: movie.year,
       }),
     });
     return res;

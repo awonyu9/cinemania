@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-export default function MoviePoster({ title, poster, date, director = null }) {
+export default function MoviePoster({ title, poster, year, director = null }) {
   // console.log('poster prop', poster);
   return (
     <div className='MoviePoster'>
@@ -10,7 +10,7 @@ export default function MoviePoster({ title, poster, date, director = null }) {
       />
       <p>
         <span className='italics'>{title}</span>
-        {date && ` (${date.slice(0, 4)})`} {director && `by ${director}`}
+        {year && ` (${year})`} {director && `by ${director}`}
       </p>
     </div>
   );

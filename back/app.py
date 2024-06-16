@@ -187,10 +187,10 @@ def get_movie_details():
     # print(movie_data)
 
     movie_title = movie_data.get('title')
-    release_date = movie_data.get('release_date')
+    release_year = movie_data.get('release_date')[:4]
     poster_path = movie_data.get('poster_path')
     backdrop_path = movie_data.get('backdrop_path')
-    # TODO: get backdrop
+
     poster_url = f"https://image.tmdb.org/t/p/original{poster_path}" if poster_path else "https://critics.io/img/movies/poster-placeholder.png"
     backdrop_url = f"https://image.tmdb.org/t/p/original{backdrop_path}" if backdrop_path else "https://www.kindpng.com/picc/m/18-189751_movie-placeholder-hd-png-download.png"
 
@@ -201,7 +201,7 @@ def get_movie_details():
 
     return jsonify({
         "movie_title": movie_title,
-        "release_date": release_date,
+        "release_year": release_year,
         "poster_url": poster_url,
         "backdrop_url": backdrop_url,
         "director": director

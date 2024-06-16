@@ -49,7 +49,7 @@ export default function Confirm() {
         console.warn('details:', details);
         setChosenMovie({
           title: details.movie_title,
-          date: details.release_date,
+          year: details.release_year,
           poster: details.poster_url,
           backdrop: details.backdrop_url,
           director: details.director,
@@ -99,7 +99,7 @@ export default function Confirm() {
           <MoviePoster
             title={chosenMovie.title}
             poster={chosenMovie.poster}
-            date={chosenMovie.date}
+            year={chosenMovie.year}
             director={chosenMovie.director}
           />
 
