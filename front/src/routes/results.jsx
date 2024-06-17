@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import Loading from '../components/Loading';
 
 export default function Results() {
   const { id } = useParams();
@@ -70,12 +71,7 @@ export default function Results() {
           New movie, new quiz
         </button>
       </div>
-      {isLoading && (
-        <div className='loading-container'>
-          <div className='loading-icon'></div>
-          <p>Generating quiz...</p>
-        </div>
-      )}
+      {isLoading && <Loading message='Generating quiz...' />}
     </div>
   );
 }

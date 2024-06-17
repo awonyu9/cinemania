@@ -48,7 +48,7 @@ export default function Home() {
           )}
           styling={{
             borderRadius: '0',
-            iconColor: 'black',
+            iconColor: 'var(--cinemania-black)',
             searchIconMargin: '0 0 0 10px',
             clearIconMargin: '10px 10px 0 0',
           }}

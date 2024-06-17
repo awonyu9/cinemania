@@ -2,18 +2,19 @@ import { useNavigate, useParams } from 'react-router-dom';
 import MoviePoster from '../components/MoviePoster';
 import { useEffect, useState } from 'react';
 import { fetchPlot } from '../utils';
+import Loading from '../components/Loading';
 
 export default function Confirm() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [moviePlot, setMoviePlot] = useState(undefined);
-  const [isQuizAvailable, setQuizAvailable] = useState(true);
   const [chosenMovie, setChosenMovie] = useState(undefined);
-  const [isLoading, setLoading] = useState(false);
+  const [waitingForPlot, setWaitingForPlot] = useState(true);
+  const [waitingForQuiz, setWaitingForQuiz] = useState(false);
 
   async function getQuiz() {
-    setLoading(true);
+    setWaitingForQuiz(true);
     try {
       const res = await fetch('http://localhost:5000/get_quiz', {
         method: 'POST',
@@ -34,7 +35,6 @@ export default function Confirm() {
   }
 
   useEffect(() => {
-    console.warn('new id', id);
     async function getMovieDetails() {
       try {
         const res = await fetch('http://localhost:5000/get_movie_details', {
@@ -46,7 +46,6 @@ export default function Confirm() {
           body: JSON.stringify({ movie_id: id }),
         });
         const details = await res.json();
-        console.warn('details:', details);
         setChosenMovie({
           title: details.movie_title,
           year: details.release_year,
@@ -63,19 +62,20 @@ export default function Confirm() {
   }, [id]);
 
   useEffect(() => {
+    setMoviePlot(undefined);
+    setWaitingForPlot(true);
+
     async function getPlot() {
       try {
         const res = await fetchPlot(chosenMovie);
-        if (res.status === 404) {
-          setQuizAvailable(false);
-        } else {
+        if (res.status !== 404) {
           const data = await res.json();
-          // console.warn('plot:', data.plot);
           setMoviePlot(data.plot);
         }
       } catch (error) {
         console.error(error);
       }
+      setWaitingForPlot(false);
     }
 
     chosenMovie && getPlot();
@@ -103,12 +103,11 @@ export default function Confirm() {
             director={chosenMovie.director}
           />
 
-          {moviePlot && isQuizAvailable ? (
-            isLoading ? (
-              <div className='loading-container'>
-                <div className='loading-icon'></div>
-                <p>Generating quiz...</p>
-              </div>
+          {waitingForPlot ? (
+            <Loading />
+          ) : moviePlot ? (
+            waitingForQuiz ? (
+              <Loading message='Generating quiz...' />
             ) : (
               <button
                 type='button'
