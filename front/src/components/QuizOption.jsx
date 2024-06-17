@@ -22,7 +22,7 @@ export default function QuizOption({
   return (
     <button
       type='button'
-      className={`Option ${correctClass}`}
+      className={`QuizOption ${correctClass}`}
       onClick={checkAnswer}
     >
       {text}

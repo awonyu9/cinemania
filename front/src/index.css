@@ -12,9 +12,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* max-width: 1280px; */
   margin: 0 auto;
-  /* padding: 2rem; */
   text-align: center;
 
   --cinemania-black: #262525;
@@ -57,10 +55,14 @@
 
 body {
   margin: 0;
-  /* display: flex; */
-  /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
+}
+
+h2 {
+  margin-top: 0;
+  color: var(--cinemania-pink);
+  font-size: 40px;
 }
 
 p,
@@ -86,6 +88,37 @@ span.italics {
   transform: skew(-10deg);
   display: inline-block;
 }
+
+/* ------------------------------- */
+/* Component styles */
+
+.Loading .icon {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.Loading .icon::before {
+  content: '';
+  animation-name: loading;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  border: 5px solid var(--cinemania-white);
+  border-top-color: #000000;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: var(--cinemania-pink);
+}
+
+@keyframes loading {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* ------------------------------- */
+/* Route styles */
 
 .Root header {
   position: sticky;
@@ -118,23 +151,13 @@ span.italics {
 .Home .search-bar {
   width: 400px;
   height: 40px;
-  /* background-color: var(--cinemania-white); */
   font-family: 'Alumni Sans Normal';
   font-size: 20px;
   cursor: pointer;
 }
 
-/* .Home .search-bar-container input {
-  width: 400px;
-  height: 40px;
-  background-color: var(--cinemania-white);
-  font-family: 'Alumni Sans Normal';
-  font-size: 20px;
-} */
-
-.Home .movie-results {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+.Home img {
+  max-width: 300px;
 }
 
 .Confirm .no-quiz-message {
@@ -149,22 +172,14 @@ span.italics {
   max-width: 500px;
 }
 
-.Quiz h2,
-.Results h2 {
-  margin-top: 0;
-  color: var(--cinemania-pink);
-  font-size: 40px;
-}
-
-.Quiz .question-block {
+.Question .question-block {
   display: grid;
   grid-template-columns: repeat(2, max-content);
   justify-content: center;
   gap: 20px;
-  /* column-gap: 20px; */
 }
 
-.Option {
+.QuizOption {
   color: black;
   background-color: var(--cinemania-yellow);
   width: 400px;
@@ -176,11 +191,11 @@ span.italics {
   cursor: pointer;
 }
 
-.Option.correct {
+.QuizOption.correct {
   background-color: var(--cinemania-green);
 }
 
-.Option.incorrect {
+.QuizOption.incorrect {
   background-color: var(--cinemania-orange);
 }
 
@@ -201,33 +216,4 @@ span.italics {
 
 .Results .nav-buttons button:nth-child(2) {
   background-color: var(--cinemania-green);
-}
-
-.MoviePoster img {
-  max-width: 300px;
-}
-
-.Loading .icon {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.Loading .icon::before {
-  content: '';
-  animation-name: loading;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  border: 5px solid var(--cinemania-white);
-  border-top-color: #000000;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  background-color: var(--cinemania-pink);
-}
-
-@keyframes loading {
-  to {
-    transform: rotate(1turn);
-  }
 }

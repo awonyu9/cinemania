@@ -1,6 +1,7 @@
 import { useLocation, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import Question from '../components/Question.jsx';
+import MoviePoster from '../components/MoviePoster.jsx';
 
 export default function Quiz() {
   const location = useLocation();
@@ -15,31 +16,30 @@ export default function Quiz() {
   //   title: 'Barbie',
   //   year: '2023',
   //   poster:
-  //     'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg', // use backdrop instead
-  //   backdrop: 'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg';
+  //     'https://image.tmdb.org/t/p/original/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg',
+  //   backdrop:
+  //     'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg',
   //   director: 'Greta Gerwig',
   //   plot,
   // };
 
   return (
     <div className='Quiz'>
-      <img
-        src={movie.backdrop}
-        alt={`Movie backdrop for ${movie.title}`}
+      <MoviePoster
+        year={movie.year}
+        poster={movie.backdrop}
+        isBackdrop
       />
       <h2>
         Movie: <span className='italics'>{movie.title}</span> ({movie.year})
       </h2>
-
-      {/* <p>Score: {score}</p> */}
-      {/* <hr /> */}
 
       <Question
         movie={movie}
         movieId={id}
         score={score}
         setScore={setScore}
-        // questions={questions.slice(0, 3)}
+        // questions={questions.slice(0, 3)} // test purposes
         questions={questions}
         n={currentQuestion}
         currentQuestion={currentQuestion}

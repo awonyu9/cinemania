@@ -1,4 +1,4 @@
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import QuizOption from './QuizOption';
 import { useEffect, useRef } from 'react';
 
@@ -12,15 +12,10 @@ export default function Question({
   currentQuestion,
   setCurrentQuestion,
 }) {
-  // const context = useOutletContext();
-  // const { n_question } = useParams();
-  // const question = context.questions[n_question - 1];
   const navigate = useNavigate();
   const question = questions[n - 1];
   const timeout = 1000;
   const latestScore = useRef(score);
-  console.log('in question, movie:', movie);
-  // console.log('outlet q', context.questions, n_question);
 
   function handleClick() {
     setTimeout(() => {
