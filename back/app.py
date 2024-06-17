@@ -32,47 +32,54 @@ def get_plot():
 
 
 def fetch_movie_plot(movie_title, movie_year):
-    if "Part" in movie_title:
-        movie_title = movie_title.replace(':', '_-')
-    if "'" in movie_title:
-        encoded_title = quote(movie_title.replace(' ', '_'))
-    else:
-        encoded_title = movie_title.replace(' ', '_')
-
-    search_url = f"https://en.wikipedia.org/wiki/{encoded_title}_({movie_year}_film)"
-    print(search_url)
+    # Préparer le titre du film pour l'URL
+    encoded_title = quote(movie_title)
+    
+    # Utiliser l'API de recherche de Wikipedia pour obtenir l'URL exacte
+    search_url = f"https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={encoded_title}%20{movie_year}%20film&format=json"
     response = requests.get(search_url)
-    # print(f"Response Status Code: {response.status_code}")
+    
     if response.status_code == 200:
-        soup = BeautifulSoup(response.content, 'html.parser')
-
-        # Find the plot section
-        plot_section = soup.find(id='Plot')
-        if not plot_section:
-            plot_section = soup.find(id='Synopsis')
-        # print(f"Plot Section Found: {bool(plot_section)}")
-
-        if plot_section:
-            plot_content = []
-            for sibling in plot_section.find_parent().find_next_siblings():
-                # print(f"Sibling: {sibling}")
-                if sibling.name == 'h2':
-                    break
-                if sibling.name == 'p':
-                    plot_content.append(sibling.get_text())
-            plot_text = ' '.join(plot_content)
-            # print(f"Plot Text: {plot_text.strip()}")
-
-            # Check if plot_text is not empty
-            if plot_text.strip():
-                return plot_text.strip()
+        search_results = response.json()
+        if search_results['query']['search']:
+            # Prendre la première page de résultats
+            page_title = search_results['query']['search'][0]['title']
+            page_url = f"https://en.wikipedia.org/wiki/{quote(page_title)}"
+            print(f"Fetching plot from: {page_url}")
+            
+            # Récupérer la page Wikipedia
+            response = requests.get(page_url)
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.content, 'html.parser')
+                
+                # Trouver la section 'Plot' ou 'Synopsis'
+                plot_section = soup.find(id='Plot') or soup.find(id='Synopsis')
+                if plot_section:
+                    plot_content = []
+                    for sibling in plot_section.find_parent().find_next_siblings():
+                        if sibling.name == 'h2':
+                            break
+                        if sibling.name == 'p':
+                            plot_content.append(sibling.get_text())
+                    plot_text = ' '.join(plot_content)
+                    
+                    # Vérifier si le texte du plot n'est pas vide
+                    if plot_text.strip():
+                        return plot_text.strip()
+                    else:
+                        print("Plot text is empty.")
+                        return None
+                else:
+                    print("Plot section not found.")
+                    return None
             else:
-                print("Plot text is empty.")
+                print("Failed to retrieve the Wikipedia page.")
                 return None
         else:
-            print("Plot section not found.")
+            print("No search results found on Wikipedia.")
             return None
     else:
+        print("Failed to perform Wikipedia search.")
         return None
 
 
