@@ -1,15 +1,18 @@
-<h1>Cinemania</h1>
+<h1 align="center">Cinemania</h1>
 
-Cinemania is a web app that uses generative AI to create a quiz on a movie of the user's choice.
+<p align="center">
+  Cinemania is a web application that uses generative AI to create a quiz on a movie of the user's choice.
+
+  ![image](https://github.com/awonyu9/cinemania/assets/71611172/391328f2-0383-4a7a-9143-e21daf1fa129)
+</p>
 
 ## Technologies used
 
 - **Front-end**: React, React Router
 - **Back-end**: Flask
 - **APIs**: OpenAI API, The Movie Database API
+- **LLM**: GPT-3.5 Turbo
 - **UI/UX prototyping**: Penpot
-
-<!-- GETTING STARTED -->
 
 ## Getting Started
 
@@ -52,4 +55,7 @@ npm install
 npm run dev
 ```
 
-4. Visit webpage in your browser at: <a href="http://127.0.0.1:5173/" alt="Link to locally running app" target="_blank">http://127.0.0.1:5173/</a>
+4. Access the application in your browser at: <a href="http://127.0.0.1:5173/" alt="Link to locally running app" target="_blank">http://127.0.0.1:5173/</a>
+
+![image](https://github.com/awonyu9/cinemania/assets/71611172/49320f2c-60e6-44c2-83a5-af2c389a9e18)
+
