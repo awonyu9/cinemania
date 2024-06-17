@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import MoviePoster from '../components/MoviePoster';
 import { useEffect, useState } from 'react';
-import { fetchPlot } from '../utils';
+import { fetchMovieDetails, fetchPlot, fetchQuiz } from '../utils';
 import Loading from '../components/Loading';
 
 export default function Confirm() {
@@ -15,47 +15,22 @@ export default function Confirm() {
 
   async function getQuiz() {
     setWaitingForQuiz(true);
-    try {
-      const res = await fetch('http://localhost:5000/get_quiz', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          movie_title: chosenMovie.title,
-          plot: moviePlot,
-        }),
-      });
-      const questions = await res.json();
-      setQuizQuestions([...JSON.parse(questions)]);
-    } catch (error) {
-      console.error();
-    }
+    const res = await fetchQuiz(chosenMovie.title, moviePlot);
+    const questions = await res.json();
+    setQuizQuestions([...JSON.parse(questions)]);
   }
 
   useEffect(() => {
     async function getMovieDetails() {
-      try {
-        const res = await fetch('http://localhost:5000/get_movie_details', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          body: JSON.stringify({ movie_id: id }),
-        });
-        const details = await res.json();
-        setChosenMovie({
-          title: details.movie_title,
-          year: details.release_year,
-          poster: details.poster_url,
-          backdrop: details.backdrop_url,
-          director: details.director,
-        });
-      } catch (error) {
-        console.error(error);
-      }
+      const res = await fetchMovieDetails(id);
+      const details = await res.json();
+      setChosenMovie({
+        title: details.movie_title,
+        year: details.release_year,
+        poster: details.poster_url,
+        backdrop: details.backdrop_url,
+        director: details.director,
+      });
     }
 
     getMovieDetails();
@@ -66,14 +41,10 @@ export default function Confirm() {
     setWaitingForPlot(true);
 
     async function getPlot() {
-      try {
-        const res = await fetchPlot(chosenMovie);
-        if (res.status !== 404) {
-          const data = await res.json();
-          setMoviePlot(data.plot);
-        }
-      } catch (error) {
-        console.error(error);
+      const res = await fetchPlot(chosenMovie);
+      if (res.status !== 404) {
+        const data = await res.json();
+        setMoviePlot(data.plot);
       }
       setWaitingForPlot(false);
     }

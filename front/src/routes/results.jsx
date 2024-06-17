@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
+import { fetchQuiz } from '../utils';
 
 export default function Results() {
   const { id } = useParams();
@@ -9,9 +10,6 @@ export default function Results() {
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const { movie, score, n_questions } = location.state;
-  console.warn('results movie and score', movie, score);
-
-  // async function generateNewQuiz() {}
 
   useEffect(() => {
     console.log('quizQuestions', quizQuestions);
@@ -38,28 +36,10 @@ export default function Results() {
         <button
           type='button'
           onClick={async () => {
-            // ***START HERE***
-            // TODO: function I put in utils should be fetchQuiz, not fetchPlot
-            // so I just did this in a dirty way for the time being
-            try {
-              setLoading(true);
-              const res = await fetch('http://localhost:5000/get_quiz', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Accept: 'application/json',
-                },
-                body: JSON.stringify({
-                  movie_title: movie.title,
-                  plot: movie.plot,
-                }),
-              });
-              const questions = await res.json();
-              console.log('questions', questions);
-              setQuizQuestions([...JSON.parse(questions)]);
-            } catch (error) {
-              console.error();
-            }
+            setLoading(true);
+            const res = await fetchQuiz(movie.title, movie.plot);
+            const questions = await res.json();
+            setQuizQuestions([...JSON.parse(questions)]);
           }}
         >
           Same movie, different quiz
