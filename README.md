@@ -11,7 +11,7 @@
 
 - **Front-end**: React, React Router
 - **Back-end**: Flask
-- **APIs**: OpenAI API, The Movie Database (TMDB) API
+- **APIs**: OpenAI API, The Movie Database (TMDB) API, Wikipedia API
 - **LLM**: GPT-3.5 Turbo
 - **UI/UX prototyping**: Penpot
 
