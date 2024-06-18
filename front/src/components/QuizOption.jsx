@@ -1,29 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function QuizOption({
   text,
-  correct,
+  isCorrect,
+  isSelected,
+  hasStarted,
   timeout,
+  setSelectedOption,
   setScore,
   onClick,
 }) {
   const [correctClass, setCorrectClass] = useState('');
-  function checkAnswer() {
-    if (correct) {
-      setCorrectClass('correct');
-      setScore((curr) => curr + 1);
-    } else {
-      setCorrectClass('incorrect');
+
+  useEffect(() => {
+    if (hasStarted) {
+      if (isCorrect) {
+        setCorrectClass('correct');
+        if (isSelected) {
+          setScore((curr) => curr + 1);
+        }
+      } else {
+        if (isSelected) {
+          setCorrectClass('incorrect');
+        }
+      }
+      setTimeout(() => setCorrectClass(''), timeout);
     }
-    onClick();
-    setTimeout(() => setCorrectClass(''), timeout);
-  }
+  }, [hasStarted, isCorrect, isSelected, setScore, timeout]);
 
   return (
     <button
       type='button'
       className={`QuizOption ${correctClass}`}
-      onClick={checkAnswer}
+      onClick={() => {
+        setSelectedOption(text);
+        onClick();
+      }}
     >
       {text}
     </button>

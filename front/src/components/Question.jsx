@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import QuizOption from './QuizOption';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Question({
   movie,
@@ -17,10 +17,15 @@ export default function Question({
   const timeout = 1000;
   const latestScore = useRef(score);
 
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [hasStarted, setHasStarted] = useState(false);
+
   function handleClick() {
+    setHasStarted(true);
     setTimeout(() => {
       if (currentQuestion < questions.length) {
         setCurrentQuestion((curr) => curr + 1);
+        setHasStarted(false);
       } else {
         navigate(`/results/${movieId}`, {
           state: {
@@ -46,8 +51,11 @@ export default function Question({
         {question.options.map((option, j) => (
           <QuizOption
             text={option.text}
-            correct={option.correct}
+            isCorrect={option.correct}
+            isSelected={selectedOption === option.text}
+            hasStarted={hasStarted}
             timeout={timeout}
+            setSelectedOption={setSelectedOption}
             setScore={setScore}
             onClick={handleClick}
             key={j}

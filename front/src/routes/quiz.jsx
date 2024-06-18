@@ -8,7 +8,6 @@ export default function Quiz() {
   const { id } = useParams();
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [score, setScore] = useState(0);
-  console.warn('state', location.state);
   const { movie, questions } = location.state;
 
   // for test purposes:

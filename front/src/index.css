@@ -65,7 +65,11 @@ h2 {
   font-size: 40px;
 }
 
-p,
+p {
+  font-size: 30px;
+  margin: 15px;
+}
+
 label {
   font-size: 30px;
 }
@@ -91,6 +95,37 @@ span.italics {
 
 /* ------------------------------- */
 /* Component styles */
+
+.Question .question-block {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  justify-content: center;
+  gap: 20px;
+}
+
+.QuizOption {
+  color: black;
+  background-color: var(--cinemania-yellow);
+  width: 400px;
+  min-height: 150px;
+  padding: 20px 20px;
+  font-family: 'Alumni Sans Bold';
+  font-size: 50px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.QuizOption.correct {
+  background-color: var(--cinemania-green);
+}
+
+.QuizOption.incorrect {
+  background-color: var(--cinemania-orange);
+}
+
+.QuizOption.correct-unselected {
+  background-color: blue;
+}
 
 .Loading .icon {
   display: flex;
@@ -120,10 +155,15 @@ span.italics {
 /* ------------------------------- */
 /* Route styles */
 
+.Root {
+  margin-bottom: 20px;
+}
+
 .Root header {
   position: sticky;
   top: 0;
   width: 100%;
+  height: 115px;
   margin-bottom: 20px;
   z-index: 2;
   background-color: var(--cinemania-black);
@@ -132,11 +172,16 @@ span.italics {
 .Root header h1 {
   margin: 0 auto;
   font-size: 100px;
+  width: fit-content;
+  height: 115px;
   color: var(--cinemania-red);
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .Root header hr {
+  margin: 0;
   border: 3px solid var(--cinemania-white);
 }
 
@@ -144,8 +189,9 @@ span.italics {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 50px;
-  row-gap: 25px;
+  /* margin: 40px; */
+  margin-bottom: 30px;
+  row-gap: 10px;
 }
 
 .Home .search-bar {
@@ -157,7 +203,7 @@ span.italics {
 }
 
 .Home img {
-  max-width: 300px;
+  max-width: 280px;
 }
 
 .Confirm .no-quiz-message {
@@ -170,33 +216,6 @@ span.italics {
 
 .Quiz img {
   max-width: 500px;
-}
-
-.Question .question-block {
-  display: grid;
-  grid-template-columns: repeat(2, max-content);
-  justify-content: center;
-  gap: 20px;
-}
-
-.QuizOption {
-  color: black;
-  background-color: var(--cinemania-yellow);
-  width: 400px;
-  min-height: 150px;
-  padding: 20px 20px;
-  font-family: 'Alumni Sans Bold';
-  font-size: 50px;
-  border-radius: 25px;
-  cursor: pointer;
-}
-
-.QuizOption.correct {
-  background-color: var(--cinemania-green);
-}
-
-.QuizOption.incorrect {
-  background-color: var(--cinemania-orange);
 }
 
 .Results img {

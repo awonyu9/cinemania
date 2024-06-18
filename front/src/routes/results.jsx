@@ -24,7 +24,6 @@ export default function Results() {
   // const n_questions = 10;
 
   useEffect(() => {
-    console.log('quizQuestions', quizQuestions);
     if (quizQuestions.length > 0) {
       navigate(`/play/${id}`, {
         state: { movie, questions: quizQuestions },
