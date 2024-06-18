@@ -38,6 +38,13 @@ export default function Question({
     }, timeout);
   }
 
+  function getOptionClassName(option) {
+    if (hasStarted) {
+      if (option.correct) return 'correct';
+      else if (selectedOption === option.text) return 'incorrect';
+    }
+  }
+
   useEffect(() => {
     latestScore.current = score;
   }, [score]);
@@ -52,9 +59,7 @@ export default function Question({
           <QuizOption
             text={option.text}
             isCorrect={option.correct}
-            isSelected={selectedOption === option.text}
-            hasStarted={hasStarted}
-            timeout={timeout}
+            getClassName={() => getOptionClassName(option)}
             setSelectedOption={setSelectedOption}
             setScore={setScore}
             onClick={handleClick}
