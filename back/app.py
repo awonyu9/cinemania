@@ -32,27 +32,21 @@ def get_plot():
 
 
 def fetch_movie_plot(movie_title, movie_year):
-    # Préparer le titre du film pour l'URL
     encoded_title = quote(movie_title)
-    
-    # Utiliser l'API de recherche de Wikipedia pour obtenir l'URL exacte
     search_url = f"https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={encoded_title}%20{movie_year}%20film&format=json"
     response = requests.get(search_url)
-    
+
     if response.status_code == 200:
         search_results = response.json()
         if search_results['query']['search']:
-            # Prendre la première page de résultats
             page_title = search_results['query']['search'][0]['title']
             page_url = f"https://en.wikipedia.org/wiki/{quote(page_title)}"
             print(f"Fetching plot from: {page_url}")
-            
-            # Récupérer la page Wikipedia
+
             response = requests.get(page_url)
             if response.status_code == 200:
                 soup = BeautifulSoup(response.content, 'html.parser')
-                
-                # Trouver la section 'Plot' ou 'Synopsis'
+
                 plot_section = soup.find(id='Plot') or soup.find(id='Synopsis')
                 if plot_section:
                     plot_content = []
@@ -62,8 +56,7 @@ def fetch_movie_plot(movie_title, movie_year):
                         if sibling.name == 'p':
                             plot_content.append(sibling.get_text())
                     plot_text = ' '.join(plot_content)
-                    
-                    # Vérifier si le texte du plot n'est pas vide
+
                     if plot_text.strip():
                         return plot_text.strip()
                     else:
@@ -86,7 +79,6 @@ def fetch_movie_plot(movie_title, movie_year):
 @app.route('/get_quiz', methods=['POST'])
 def get_quiz():
     api_key = os.getenv("OPENAI_API_KEY")
-    # print(api_key)
     data = request.get_json()
 
     if 'movie_title' not in data:
@@ -94,26 +86,19 @@ def get_quiz():
     if 'plot' not in data:
         return jsonify({"error": "Plot is required"}), 400
 
-    # if 'movie_year' not in data:
-    #     return jsonify({"error": "Movie year is required"}), 400
-
     movie_title = data['movie_title']
     plot = data['plot']
-    # movie_year = data['movie_year']
-
-    # plot = fetch_movie_plot(movie_title, movie_year)
-    # if not plot:
-    #     return jsonify({"error": "Movie not found or error fetching data"}), 404
 
     prompt = f"""
-    Generate a 10-question MCQ quiz on the movie {movie_title} with the correct answer. Your answer should be json with this format:
+    Generate a 10-question MCQ quiz on the movie {movie_title} with the correct answer.
+    Your answer should be json with this format:
 
     [
     {{
         "question": "Where does Forrest Gump recount his life story?",
         "options": [
-        {{"text": "At a bus stop in Savannah, Georgia", "correct": true}},
         {{"text": "At a train station in Atlanta, Georgia", "correct": false}},
+        {{"text": "At a bus stop in Savannah, Georgia", "correct": true}},
         {{"text": "At a cafe in Greenbow, Alabama", "correct": false}},
         {{"text": "At a park in New York City", "correct": false}}
         ]
@@ -121,6 +106,7 @@ def get_quiz():
     ...
     ]
 
+    Make sure that the correct answer is not always in the same position in the options array.
     Here's the plot of the film to help you: {plot}
     """
     client = OpenAI(api_key=api_key)
@@ -138,11 +124,8 @@ def get_quiz():
         frequency_penalty=0,
         presence_penalty=0
     )
-    # print(response.choices[0].message.content)
-    # return response.choices[0].message.content
-    response_text = response.choices[0].message.content
 
-    # Remove the `json` parts if they exist
+    response_text = response.choices[0].message.content
     response_text = response_text.replace(
         "```json", "").replace("```", "").strip()
 
@@ -191,7 +174,6 @@ def get_movie_details():
         return jsonify({"error": "Failed to fetch movie details"}), response.status_code
 
     movie_data = response.json()
-    # print(movie_data)
 
     movie_title = movie_data.get('title')
     release_year = movie_data.get('release_date')[:4]
@@ -203,7 +185,6 @@ def get_movie_details():
 
     directors = [member['name'] for member in movie_data['credits']
                  ['crew'] if member['job'] == 'Director']
-    # print(directors)
     director = directors[0] if directors else None
 
     return jsonify({
