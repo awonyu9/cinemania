@@ -12,24 +12,13 @@ export default function Results() {
   const [isLoading, setLoading] = useState(false);
   const { movie, score, n_questions } = location.state;
 
-  // for test purposes:
-  // const movie = {
-  //   plot: 'this',
-  //   poster:
-  //     'https://image.tmdb.org/t/p/original/8qQmKfcowF34ZLKilPGJGsNd4FW.jpg',
-  //   title: 'The Movie',
-  //   year: '2000',
-  // };
-  // const score = 10;
-  // const n_questions = 10;
-
   useEffect(() => {
     if (quizQuestions.length > 0) {
       navigate(`/play/${id}`, {
         state: { movie, questions: quizQuestions },
       });
     }
-  }, [quizQuestions]);
+  }, [id, movie, navigate, quizQuestions]);
 
   return (
     <div className='Results'>

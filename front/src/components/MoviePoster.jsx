@@ -2,7 +2,7 @@ export default function MoviePoster({
   title,
   poster,
   year,
-  director = null,
+  director,
   isBackdrop,
 }) {
   return (

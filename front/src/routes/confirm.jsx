@@ -61,7 +61,7 @@ export default function Confirm() {
         },
       });
     }
-  }, [quizQuestions]); // TODO: try adding 'navigate' to dependencies
+  }, [chosenMovie, id, moviePlot, navigate, quizQuestions]);
 
   return (
     <div className='Confirm'>

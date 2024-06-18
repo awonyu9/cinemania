@@ -129,7 +129,6 @@ def get_quiz():
     response_text = response_text.replace(
         "```json", "").replace("```", "").strip()
 
-    print(response_text)
     return jsonify(response_text)
 
 
