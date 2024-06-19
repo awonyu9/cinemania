@@ -52,6 +52,8 @@ py app.py
 
 In another terminal, start the front-end:
 
+\*_Make sure to have Node and `npm` installed on your machine._
+
 ```sh
 cd front
 
