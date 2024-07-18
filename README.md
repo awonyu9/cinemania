@@ -14,6 +14,7 @@
 - **APIs**: OpenAI API, The Movie Database (TMDB) API, Wikipedia API
 - **LLM**: GPT-3.5 Turbo
 - **UI/UX prototyping**: Penpot
+- **Scrapping**: BeautifulSoup
 
 ## Getting Started
 
